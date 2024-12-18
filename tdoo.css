@@ -1,0 +1,902 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #6A5ACD;
+    --secondary-color: #4A90E2;
+    --background-light: #F4F7F6;
+    --text-primary: #2C3E50;
+    --text-secondary: #7F8C8D;
+    --accent-green: #48DBB4;
+    --accent-orange: #FFA726;
+    --accent-red: #FF6B6B;
+    --low-priority: #4CAF50;
+    --medium-priority: #FFC107;
+    --high-priority: #F44336;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.todo-wrapper {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(108, 88, 205, 0.2);
+    padding: 35px;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+
+.date-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.task-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    right: 100px;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+#taskInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+#addTaskBtn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    left: 100px;
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#addTaskBtn:hover {
+    background-color: #0056b3;
+}
+
+.input-extras {
+    display: flex;
+    gap: 10px;
+}
+
+#dueDateInput {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--background-light);
+    width: 350px;
+}
+
+#addTaskBtn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--background-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addTaskBtn:hover {
+    background-color: var(--secondary-color);
+}
+
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.stats-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    flex-grow: 1;
+    margin: 0 10px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: var(--background-light);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.stat-card span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.todo-list {
+    list-style-type: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: var(--background-light);
+    transition: all 0.3s ease;
+}
+
+.todo-item.high-priority {
+    border-left: 5px solid var(--high-priority);
+}
+
+.todo-item.medium-priority {
+    border-left: 5px solid var(--medium-priority);
+}
+
+.todo-item.low-priority {
+    border-left: 5px solid var(--low-priority);
+}
+
+.todo-item-text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    overflow: visible;
+}
+
+.bulk-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#deleteCompletedBtn {
+    background-color: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.close-modal {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* General button styling */
+button {
+    background: linear-gradient(135deg, #4A6CF7, #6A5ACD);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-2px);
+}
+
+/* Priority tags */
+.priority-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.priority-high {
+    background: linear-gradient(135deg, #FF6B6B, #FF8A8A);
+}
+
+.priority-medium {
+    background: linear-gradient(135deg, #FFA726, #FFB74D);
+}
+
+.priority-low {
+    background: linear-gradient(135deg, #48DBB4, #66E8C7);
+}
+
+/* Date input styling */
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    color: #000000;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+select {
+    background: linear-gradient(135deg, #4A6CF7, #6A5ACD);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: fit-content;
+}
+
+select option {
+    background: linear-gradient(135deg, #fff, #f0f0f0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 5px 0;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    border-bottom: 1px solid #ccc; /* Add a line between options */
+}
+
+select option:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.filter-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff;
+    pointer-events: none;
+    z-index: 0;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+/* Adjust the container to accommodate the icon */
+.sort-section {
+    position: relative;
+    display: inline-block;
+}
+
+select option {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.input-extras select, .sort-section select {
+    width: 100%;
+    max-width: 200px;
+}
+
+.input-extras select i, .sort-section select i {
+    margin-right: 5px;
+}
+
+/* Task input styling */
+#taskInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Options button styling */
+.options-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.options-btn:hover {
+    color: #4A6CF7;
+}
+
+/* Compact dropdown menu styling */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1;
+    margin-top: 5px;
+    min-width: 120px;
+    right: 0.5px;
+    padding: 3px 0;
+}
+
+/* Compact dropdown menu button styling */
+.dropdown-menu button {
+    background-color: #6A5ACD;
+    border: none;
+    padding: 8px 10px;
+    width: 120px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    margin: 3px 5px 3px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu button:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+.not-necessary-btn {
+    color: #48DBB4;
+    font-style: italic;
+    background: none;
+    border: none;
+    padding: 8px 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+    margin: 3px 5px;
+}
+
+.not-necessary-btn:hover {
+    background-color: #e0f7f1;
+}
+
+
+/* Filter button hover */
+.styled-select select:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+/* Filter button position */
+.styled-select.filter-select i {
+    position: absolute;
+    right: 15px; /* Adjust icon position */
+    pointer-events: none;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* For filter section and priority dropdowns */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.styled-select select {
+    width: 100%;
+}
+
+.styled-select select option:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+/* Priority dropdown styling */
+.priority-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 200px;
+}
+
+.priority-select select {
+    background: linear-gradient(135deg, #1b7cde, #15bdeb);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    color: rgb(253, 253, 253);
+}
+
+.priority-select select option {
+    background: #099ec7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: none;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    margin-left: 2500px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    color: rgb(20, 20, 20);
+    display: block;
+    border-bottom: 100px solid #ccc; /* Add a line between options */
+}
+
+.priority-select select option:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+.priority-select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.priority-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff;
+    pointer-events: none;
+    z-index: 0;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+/* Adjust the container to accommodate the icon */
+.priority-select {
+    position: relative;
+    display: inline-block;
+}
+
+.priority-select select {
+    width: 100%;
+    max-width: 200px;
+}
+
+.priority-select select i {
+    margin-right: 5px;
+}
+
+/* Filter dropdown styling */
+.styled-select select {
+    color: #ffffff;
+}
+
+.styled-select select option {
+    color: rgb(0, 0, 0);
+    display: block;
+    border-bottom: 10px solid #000000;
+}
+
+/* Priority dropdown styling */
+.priority-select select option {
+    border-bottom: 1px solid #ccc; /* Add a line between options */
+}
+
+/* Filter dropdown styling */
+.styled-select select option {
+    border-bottom: 1px solid #ccc; /* Add a line between options */
+}
+
+/* General dropdown option styling */
+select option {
+    background: #594bc722;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 5px 0;
+    margin-right: 200px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    border-bottom: 1px solid #ccc; /* Add a line between options */
+}
+
+/* Hover effect for dropdown options */
+select option:hover {
+    background: linear-gradient(135deg, #3a5bd7, #5a4bc7);
+    transform: translateY(-1px);
+}
+
+/* Specific styling for filter dropdown */
+
+.task-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--background-light);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.task-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.task-bar #taskInput {
+    flex: 1;
+}
+
+.task-bar #addTaskBtn {
+    flex-shrink: 0;
+}
+
+.task-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.priority-section, .date-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/* Enhanced Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 15px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #6A5ACD, #4A90E2);
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    margin-left: 120px;
+}
+
+.close-modal {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #FF6B6B;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-priority-section {
+    margin-bottom: 20px;
+}
+
+.edit-priority-section label {
+    display: block;
+    margin-bottom: 10px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.priority-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.priority-option {
+    flex: 1;
+    margin: 0 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.priority-option input {
+    display: none;
+}
+
+.priority-option label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.priority-option[data-priority="low"] {
+    border-color: #48DBB4;
+}
+
+.priority-option[data-priority="medium"] {
+    border-color: #FFA726;
+}
+
+.priority-option[data-priority="high"] {
+    border-color: #F44336;
+}
+
+.priority-option.selected {
+    background-color: rgba(72, 219, 180, 0.1);
+}
+
+.priority-option.selected[data-priority="low"] {
+    border-color: #48DBB4;
+    background-color: rgba(72, 219, 180, 0.2);
+}
+
+.priority-option.selected[data-priority="medium"] {
+    border-color: #FFA726;
+    background-color: rgba(255, 167, 38, 0.2);
+}
+
+.priority-option.selected[data-priority="high"] {
+    border-color: #F44336;
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+.edit-date-section {
+    margin-bottom: 15px;
+}
+
+.edit-date-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.edit-date-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+    margin-left: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-footer button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#cancelEditBtn, #saveEditBtn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#cancelEditBtn {
+    background: linear-gradient(135deg, #ff4444, #ff6b6b);
+    margin-right: 40px;
+}
+
+#saveEditBtn {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+}
+
+#cancelEditBtn:hover, #saveEditBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+#cancelEditBtn:hover {
+    background: linear-gradient(135deg, #ff5555, #ff7b7b);
+}
+
+#saveEditBtn:hover {
+    background: linear-gradient(135deg, #66BB6A, #A5D6A7);
+}
